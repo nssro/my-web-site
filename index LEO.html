@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Leopard'O | Cafe, Restaurant & Barbershop - Oujda</title>
+    <meta name="description" content="Leopard'O - Un lieu moderne pour se detendre et se faire plaisir. Cafe, Restaurant & Barbershop a Oujda.">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'leopard-black': '#0a0a0a',
+                        'leopard-gold': '#D4AF37',
+                        'leopard-gold-light': '#F4E4BC',
+                        'leopard-white': '#fafafa',
+                        'leopard-gray': '#1a1a1a'
+                    },
+                    fontFamily: {
+                        'serif': ['Playfair Display', 'serif'],
+                        'sans': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Prevent horizontal overflow on mobile */
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        .gold-gradient {
+            background: linear-gradient(135deg, #D4AF37 0%, #F4E4BC 50%, #D4AF37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gold-bg-gradient {
+            background: linear-gradient(135deg, #D4AF37 0%, #B8941F 100%);
+        }
+
+        .hero-overlay {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.75));
+        }
+
+        .menu-item {
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.1);
+        }
+
+        .service-card {
+            transition: all 0.4s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #D4AF37;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .leopard-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4AF37' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .category-btn.active {
+            background: linear-gradient(135deg, #D4AF37 0%, #B8941F 100%);
+            color: #0a0a0a;
+        }
+
+        .reservation-input {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .reservation-input:focus {
+            border-color: #D4AF37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 50;
+            animation: slideIn 0.5s ease;
+        }
+
+        @media (max-width: 640px) {
+            .whatsapp-btn {
+                bottom: 16px;
+                right: 16px;
+            }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .review-card {
+            transition: all 0.3s ease;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.15);
+        }
+
+        /* Mobile menu animation */
+        #mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        #mobile-menu.open {
+            max-height: 400px;
+        }
+
+        /* Better touch targets on mobile */
+        @media (max-width: 768px) {
+            .category-btn {
+                min-height: 44px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .menu-item {
+                padding: 1rem;
+            }
+            .service-card {
+                padding: 1rem;
+            }
+        }
+
+        /* Horizontal scroll for category buttons on mobile */
+        .category-scroll {
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .category-scroll::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-leopard-black text-leopard-white font-sans antialiased overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-transparent">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 sm:h-20">
+                <a href="#home" class="flex-shrink-0 flex items-center gap-2 sm:gap-3">
+                    <div class="w-9 h-9 sm:w-10 sm:h-10 gold-bg-gradient rounded-full flex items-center justify-center">
+                        <i class="fas fa-paw text-leopard-black text-lg sm:text-xl"></i>
+                    </div>
+                    <span class="font-serif text-xl sm:text-2xl font-bold tracking-wider text-white">Leopard'O</span>
+                </a>
+
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#home" class="nav-link text-sm uppercase tracking-widest hover:text-leopard-gold transition-colors">Accueil</a>
+                    <a href="#restaurant" class="nav-link text-sm uppercase tracking-widest hover:text-leopard-gold transition-colors">Restaurant</a>
+                    <a href="#barbershop" class="nav-link text-sm uppercase tracking-widest hover:text-leopard-gold transition-colors">Barbershop</a>
+                    <a href="#avis" class="nav-link text-sm uppercase tracking-widest hover:text-leopard-gold transition-colors">Avis</a>
+                    <a href="#reservation" class="nav-link text-sm uppercase tracking-widest hover:text-leopard-gold transition-colors">Reservation</a>
+                    <a href="#contact" class="nav-link text-sm uppercase tracking-widest hover:text-leopard-gold transition-colors">Contact</a>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <a href="https://www.instagram.com/leopardocoffee" target="_blank" rel="noopener noreferrer" class="relative p-2 hover:text-leopard-gold transition-colors" title="Instagram" aria-label="Instagram">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <button class="md:hidden p-2 min-w-[44px] min-h-[44px] flex items-center justify-center" onclick="toggleMobileMenu()" aria-label="Menu" id="menu-toggle-btn">
+                        <i class="fas fa-bars text-xl" id="menu-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden bg-leopard-gray/95 backdrop-blur-md border-t border-leopard-gold/20">
+            <div class="px-4 pt-2 pb-6 space-y-1">
+                <a href="#home" onclick="closeMobileMenu()" class="block px-3 py-3 text-base hover:text-leopard-gold transition-colors">Accueil</a>
+                <a href="#restaurant" onclick="closeMobileMenu()" class="block px-3 py-3 text-base hover:text-leopard-gold transition-colors">Restaurant</a>
+                <a href="#barbershop" onclick="closeMobileMenu()" class="block px-3 py-3 text-base hover:text-leopard-gold transition-colors">Barbershop</a>
+                <a href="#avis" onclick="closeMobileMenu()" class="block px-3 py-3 text-base hover:text-leopard-gold transition-colors">Avis</a>
+                <a href="#reservation" onclick="closeMobileMenu()" class="block px-3 py-3 text-base hover:text-leopard-gold transition-colors">Reservation</a>
+                <a href="#contact" onclick="closeMobileMenu()" class="block px-3 py-3 text-base hover:text-leopard-gold transition-colors">Contact</a>
+                <a href="https://www.instagram.com/leopardocoffee" target="_blank" rel="noopener noreferrer" class="block px-3 py-3 text-base hover:text-leopard-gold transition-colors">
+                    <i class="fab fa-instagram mr-2"></i>Instagram
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbcR7I63vz2cJAOc5a1r__13R9s6OZ9csGQA&s"
+                 alt="Leopard'O Interior"
+                 class="w-full h-full object-cover">
+            <div class="hero-overlay absolute inset-0"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-6 max-w-5xl mx-auto" data-aos="fade-up" data-aos-duration="1000">
+            <div class="mb-4 sm:mb-6 inline-block">
+                <i class="fas fa-paw text-leopard-gold text-3xl sm:text-4xl mb-4 animate-bounce"></i>
+            </div>
+            <h1 class="font-serif text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-4 sm:mb-6 leading-tight">
+                <span class="gold-gradient italic">Leopard'O</span>
+            </h1>
+            <p class="text-base sm:text-xl md:text-2xl text-gray-200 mb-3 sm:mb-4 font-light tracking-wide px-4">
+                Un lieu moderne pour se detendre et se faire plaisir
+            </p>
+            <div class="w-20 sm:w-24 h-1 gold-bg-gradient mx-auto mb-8 sm:mb-12"></div>
+
+            <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4">
+                <a href="#restaurant" class="w-full sm:w-auto text-center group px-6 sm:px-8 py-3.5 sm:py-4 bg-transparent border-2 border-leopard-gold text-leopard-gold rounded-full hover:bg-leopard-gold hover:text-leopard-black transition-all duration-300 font-semibold tracking-wider text-sm sm:text-base">
+                    <i class="fas fa-utensils mr-2"></i> Voir le Menu
+                </a>
+                <a href="#reservation" class="w-full sm:w-auto text-center px-6 sm:px-8 py-3.5 sm:py-4 gold-bg-gradient text-leopard-black rounded-full hover:opacity-90 transition-all duration-300 font-semibold tracking-wider shadow-lg shadow-leopard-gold/20 text-sm sm:text-base">
+                    <i class="fas fa-calendar-check mr-2"></i> Reserver une Table
+                </a>
+                <a href="#barbershop" class="w-full sm:w-auto text-center group px-6 sm:px-8 py-3.5 sm:py-4 bg-transparent border-2 border-white text-white rounded-full hover:bg-white hover:text-leopard-black transition-all duration-300 font-semibold tracking-wider text-sm sm:text-base">
+                    <i class="fas fa-cut mr-2"></i> Prendre RDV
+                </a>
+            </div>
+        </div>
+
+        <div class="absolute bottom-8 sm:bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <a href="#restaurant" class="text-white/50 hover:text-leopard-gold transition-colors">
+                <i class="fas fa-chevron-down text-2xl sm:text-3xl"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Restaurant Section -->
+    <section id="restaurant" class="py-16 sm:py-24 leopard-pattern relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Header -->
+            <div class="text-center mb-12 sm:mb-16" data-aos="fade-up">
+                <span class="text-leopard-gold uppercase tracking-widest text-xs sm:text-sm font-semibold">Gastronomie</span>
+                <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold mt-3 sm:mt-4 mb-4 sm:mb-6">
+                    Leopard'O <span class="gold-gradient italic">Cafe & Restaurant</span>
+                </h2>
+                <div class="w-20 h-1 gold-bg-gradient mx-auto mb-6 sm:mb-8"></div>
+
+                <!-- Presentation Image -->
+                <div class="relative max-w-4xl mx-auto mb-10 sm:mb-12 rounded-2xl overflow-hidden shadow-2xl" data-aos="zoom-in">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS62w29sfIzl2PSb8QqEOLoARaOReAQv6IzsA&s"
+                         alt="Leopard'O Restaurant Ambiance"
+                         class="w-full h-56 sm:h-72 md:h-96 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-leopard-black/80 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-8">
+                        <p class="text-sm sm:text-lg text-gray-200 leading-relaxed">
+                            Un lieu moderne et elegant, parfaitement adapte aux moments en famille ou entre amis.
+                            Decouvrez une ambiance chaleureuse ou chaque detail a ete pense pour votre confort.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Menu Categories - Horizontal scroll on mobile -->
+            <div class="category-scroll flex flex-nowrap sm:flex-wrap justify-start sm:justify-center gap-3 sm:gap-4 mb-10 sm:mb-12 overflow-x-auto pb-2" data-aos="fade-up">
+                <button onclick="filterMenu('breakfast')" class="category-btn active px-5 sm:px-6 py-2.5 sm:py-3 rounded-full border border-leopard-gold/30 hover:border-leopard-gold transition-all text-xs sm:text-sm font-semibold whitespace-nowrap flex-shrink-0">
+                    <i class="fas fa-coffee mr-1.5 sm:mr-2"></i>Petit-dejeuner
+                </button>
+                <button onclick="filterMenu('burgers')" class="category-btn px-5 sm:px-6 py-2.5 sm:py-3 rounded-full border border-leopard-gold/30 hover:border-leopard-gold transition-all text-xs sm:text-sm font-semibold whitespace-nowrap flex-shrink-0">
+                    <i class="fas fa-hamburger mr-1.5 sm:mr-2"></i>Burgers
+                </button>
+                <button onclick="filterMenu('crepes')" class="category-btn px-5 sm:px-6 py-2.5 sm:py-3 rounded-full border border-leopard-gold/30 hover:border-leopard-gold transition-all text-xs sm:text-sm font-semibold whitespace-nowrap flex-shrink-0">
+                    <i class="fas fa-utensils mr-1.5 sm:mr-2"></i>Crepes
+                </button>
+                <button onclick="filterMenu('desserts')" class="category-btn px-5 sm:px-6 py-2.5 sm:py-3 rounded-full border border-leopard-gold/30 hover:border-leopard-gold transition-all text-xs sm:text-sm font-semibold whitespace-nowrap flex-shrink-0">
+                    <i class="fas fa-ice-cream mr-1.5 sm:mr-2"></i>Desserts
+                </button>
+                <button onclick="filterMenu('drinks')" class="category-btn px-5 sm:px-6 py-2.5 sm:py-3 rounded-full border border-leopard-gold/30 hover:border-leopard-gold transition-all text-xs sm:text-sm font-semibold whitespace-nowrap flex-shrink-0">
+                    <i class="fas fa-glass-whiskey mr-1.5 sm:mr-2"></i>Boissons
+                </button>
+            </div>
+
+            <!-- Menu Grid -->
+            <div id="menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+                <!-- Items will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Barbershop Section -->
+    <section id="barbershop" class="py-16 sm:py-24 bg-leopard-gray relative overflow-hidden">
+        <!-- Decorative elements -->
+        <div class="absolute top-0 right-0 w-64 sm:w-96 h-64 sm:h-96 bg-leopard-gold/5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-64 sm:w-96 h-64 sm:h-96 bg-leopard-gold/5 rounded-full blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+                <!-- Content -->
+                <div data-aos="fade-right">
+                    <span class="text-leopard-gold uppercase tracking-widest text-xs sm:text-sm font-semibold">Barbering Excellence</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold mt-3 sm:mt-4 mb-4 sm:mb-6">
+                        Leopard'O <span class="gold-gradient italic">Barbershop</span>
+                    </h2>
+                    <div class="w-20 h-1 gold-bg-gradient mb-6 sm:mb-8"></div>
+
+                    <p class="text-gray-300 text-base sm:text-lg mb-6 sm:mb-8 leading-relaxed">
+                        Un salon moderne dedie aux hommes qui se soucient de leur style. Notre equipe de barbiers professionnels
+                        vous offre une experience de grooming premium dans une ambiance masculine et sophistiquee.
+                    </p>
+
+                    <div class="space-y-4 sm:space-y-6 mb-8 sm:mb-10">
+                        <div class="flex items-start gap-3 sm:gap-4 service-card p-3 sm:p-4 rounded-xl bg-leopard-black/50 border border-leopard-gold/10">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 gold-bg-gradient rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-cut text-leopard-black text-lg sm:text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-serif text-lg sm:text-xl font-semibold mb-1">Coupe de Cheveux</h4>
+                                <p class="text-gray-400 text-xs sm:text-sm">Coupe personnalisee selon votre style et la forme de votre visage</p>
+                                <p class="text-leopard-gold font-bold mt-1 sm:mt-2">A partir de 80 DH</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3 sm:gap-4 service-card p-3 sm:p-4 rounded-xl bg-leopard-black/50 border border-leopard-gold/10">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 gold-bg-gradient rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-user-tie text-leopard-black text-lg sm:text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-serif text-lg sm:text-xl font-semibold mb-1">Taille de Barbe</h4>
+                                <p class="text-gray-400 text-xs sm:text-sm">Taille precise et soin complet de la barbe</p>
+                                <p class="text-leopard-gold font-bold mt-1 sm:mt-2">A partir de 50 DH</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3 sm:gap-4 service-card p-3 sm:p-4 rounded-xl bg-leopard-black/50 border border-leopard-gold/10">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 gold-bg-gradient rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-spa text-leopard-black text-lg sm:text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-serif text-lg sm:text-xl font-semibold mb-1">Soins du Visage</h4>
+                                <p class="text-gray-400 text-xs sm:text-sm">Traitement complet pour une peau fraiche et revitalisee</p>
+                                <p class="text-leopard-gold font-bold mt-1 sm:mt-2">A partir de 120 DH</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#reservation" class="inline-flex items-center px-6 sm:px-8 py-3.5 sm:py-4 gold-bg-gradient text-leopard-black rounded-full font-bold hover:opacity-90 transition-all shadow-lg shadow-leopard-gold/20 text-sm sm:text-base">
+                        <i class="fas fa-calendar-alt mr-2"></i> Prendre Rendez-vous
+                    </a>
+                </div>
+
+                <!-- Image -->
+                <div class="relative order-first lg:order-last" data-aos="fade-left">
+                    <div class="absolute inset-0 gold-bg-gradient rounded-2xl sm:rounded-3xl transform rotate-3 opacity-20"></div>
+                    <img src="https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=122099025920865091"
+                         alt="Leopard'O Barbershop"
+                         class="relative rounded-2xl sm:rounded-3xl shadow-2xl w-full h-72 sm:h-96 lg:h-[600px] object-cover">
+
+                    <div class="absolute -bottom-4 sm:-bottom-6 -left-2 sm:-left-6 bg-leopard-gray p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-leopard-gold/20 shadow-xl">
+                        <div class="flex items-center gap-3 sm:gap-4">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 gold-bg-gradient rounded-full flex items-center justify-center">
+                                <i class="fas fa-star text-leopard-black text-sm sm:text-base"></i>
+                            </div>
+                            <div>
+                                <p class="text-xl sm:text-2xl font-bold gold-gradient">4.9/5</p>
+                                <p class="text-xs sm:text-sm text-gray-400">Base sur 200+ avis</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Avis Section -->
+    <section id="avis" class="py-16 sm:py-24 leopard-pattern relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 sm:mb-16" data-aos="fade-up">
+                <span class="text-leopard-gold uppercase tracking-widest text-xs sm:text-sm font-semibold">Temoignages</span>
+                <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold mt-3 sm:mt-4 mb-4 sm:mb-6">
+                    Ce que disent nos <span class="gold-gradient italic">Clients</span>
+                </h2>
+                <div class="w-20 h-1 gold-bg-gradient mx-auto mb-6 sm:mb-8"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                <!-- Review Card 1 -->
+                <div class="review-card bg-leopard-gray rounded-2xl p-5 sm:p-6 border border-leopard-gold/10" data-aos="fade-up" data-aos-delay="0">
+                    <div class="flex items-center gap-3 sm:gap-4 mb-4">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-leopard-gold/20 border-2 border-leopard-gold flex items-center justify-center flex-shrink-0">
+                            <span class="text-leopard-gold font-bold text-lg">A</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-base sm:text-lg">Ahmed B.</h4>
+                            <div class="flex text-leopard-gold text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 leading-relaxed text-sm sm:text-base">
+                        "Excellent cafe et ambiance incroyable ! Le petit-dejeuner Leopard'O Bowl est un must. Service impeccable et cadre elegant."
+                    </p>
+                </div>
+
+                <!-- Review Card 2 -->
+                <div class="review-card bg-leopard-gray rounded-2xl p-5 sm:p-6 border border-leopard-gold/10" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center gap-3 sm:gap-4 mb-4">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-leopard-gold/20 border-2 border-leopard-gold flex items-center justify-center flex-shrink-0">
+                            <span class="text-leopard-gold font-bold text-lg">K</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-base sm:text-lg">Karim M.</h4>
+                            <div class="flex text-leopard-gold text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 leading-relaxed text-sm sm:text-base">
+                        "Le barbershop est top niveau ! Coupe parfaite et soin de la barbe professionnel. Je recommande vivement."
+                    </p>
+                </div>
+
+                <!-- Review Card 3 -->
+                <div class="review-card bg-leopard-gray rounded-2xl p-5 sm:p-6 border border-leopard-gold/10" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center gap-3 sm:gap-4 mb-4">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-leopard-gold/20 border-2 border-leopard-gold flex items-center justify-center flex-shrink-0">
+                            <span class="text-leopard-gold font-bold text-lg">Y</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-base sm:text-lg">Youssef T.</h4>
+                            <div class="flex text-leopard-gold text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 leading-relaxed text-sm sm:text-base">
+                        "Endroit parfait pour passer du temps entre amis. Les burgers sont delicieux et le service est rapide. Mon nouveau spot favori a Oujda !"
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reservation Section -->
+    <section id="reservation" class="py-16 sm:py-24 leopard-pattern">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10 sm:mb-12" data-aos="fade-up">
+                <span class="text-leopard-gold uppercase tracking-widest text-xs sm:text-sm font-semibold">Reservation</span>
+                <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold mt-3 sm:mt-4 mb-4 sm:mb-6">
+                    Reservez Votre <span class="gold-gradient italic">Table</span>
+                </h2>
+                <div class="w-20 h-1 gold-bg-gradient mx-auto"></div>
+            </div>
+
+            <div class="bg-leopard-gray rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 border border-leopard-gold/20 shadow-2xl" data-aos="fade-up">
+                <form id="reservation-form" onsubmit="handleReservation(event)" class="space-y-5 sm:space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Nom complet</label>
+                            <input type="text" id="res-name" required class="reservation-input w-full px-4 py-3 rounded-lg text-white placeholder-gray-500 focus:outline-none text-base" placeholder="Votre nom">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Telephone</label>
+                            <input type="tel" id="res-phone" required class="reservation-input w-full px-4 py-3 rounded-lg text-white placeholder-gray-500 focus:outline-none text-base" placeholder="+212 6XX XXX XXX">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Service</label>
+                            <select id="res-service" onchange="updateReservationOptions()" class="reservation-input w-full px-4 py-3 rounded-lg text-white focus:outline-none text-base">
+                                <option value="restaurant">Restaurant (+50 DH de reservation)</option>
+                                <option value="barbershop">Barbershop</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Date</label>
+                            <input type="date" id="res-date" required class="reservation-input w-full px-4 py-3 rounded-lg text-white focus:outline-none text-base">
+                        </div>
+                    </div>
+
+                    <div id="restaurant-options" class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Heure</label>
+                            <select id="res-time" class="reservation-input w-full px-4 py-3 rounded-lg text-white focus:outline-none text-base">
+                                <option value="08:00">08:00</option>
+                                <option value="09:00">09:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="12:00">12:00</option>
+                                <option value="13:00">13:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="19:00">19:00</option>
+                                <option value="20:00">20:00</option>
+                                <option value="21:00">21:00</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Nombre de personnes</label>
+                            <select id="res-guests" class="reservation-input w-full px-4 py-3 rounded-lg text-white focus:outline-none text-base">
+                                <option value="1">1 personne</option>
+                                <option value="2">2 personnes</option>
+                                <option value="3">3 personnes</option>
+                                <option value="4">4 personnes</option>
+                                <option value="5">5 personnes</option>
+                                <option value="6">6 personnes</option>
+                                <option value="7">7 personnes</option>
+                                <option value="8">8+ personnes</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Barbershop time option (hidden by default) -->
+                    <div id="barbershop-options" class="hidden">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Heure</label>
+                            <select id="res-barber-time" class="reservation-input w-full px-4 py-3 rounded-lg text-white focus:outline-none text-base">
+                                <option value="09:00">09:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <option value="12:00">12:00</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">15:00</option>
+                                <option value="16:00">16:00</option>
+                                <option value="17:00">17:00</option>
+                                <option value="18:00">18:00</option>
+                                <option value="19:00">19:00</option>
+                                <option value="20:00">20:00</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="fee-section" class="bg-leopard-black/50 p-4 rounded-lg border border-leopard-gold/20">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-gray-300">Frais de reservation</span>
+                            <span id="reservation-fee" class="font-bold">50 DH</span>
+                        </div>
+                        <div class="flex justify-between items-center text-lg font-bold">
+                            <span>Total</span>
+                            <span id="reservation-total" class="gold-gradient">50 DH</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="submit-btn" class="w-full gold-bg-gradient text-leopard-black font-bold py-4 rounded-lg hover:opacity-90 transition-all transform hover:scale-[1.02] shadow-lg text-sm sm:text-base">
+                        <i class="fab fa-whatsapp mr-2 text-lg"></i>Confirmer la Reservation via WhatsApp
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 sm:py-24 bg-leopard-gray">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-10 lg:gap-16">
+                <div data-aos="fade-right">
+                    <span class="text-leopard-gold uppercase tracking-widest text-xs sm:text-sm font-semibold">Contact</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold mt-3 sm:mt-4 mb-4 sm:mb-6">
+                        Venez Nous <span class="gold-gradient italic">Rencontrer</span>
+                    </h2>
+                    <div class="w-20 h-1 gold-bg-gradient mb-6 sm:mb-8"></div>
+
+                    <div class="space-y-4 sm:space-y-6">
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=34.6867256,-1.9086873" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 sm:gap-4 group p-3 sm:p-0 rounded-xl sm:rounded-none hover:bg-leopard-black/30 sm:hover:bg-transparent transition-colors">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-leopard-black rounded-lg flex items-center justify-center border border-leopard-gold/30 group-hover:bg-leopard-gold transition-all flex-shrink-0">
+                                <i class="fas fa-map-marker-alt text-leopard-gold text-lg sm:text-xl group-hover:text-leopard-black"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-base sm:text-lg mb-1 group-hover:text-leopard-gold transition-colors">Adresse</h4>
+                                <p class="text-gray-400 group-hover:text-gray-300 transition-colors text-sm sm:text-base">Boulevard Al Maqdis, Oujda, Maroc</p>
+                                <p class="text-leopard-gold text-xs sm:text-sm mt-1"><i class="fas fa-directions mr-1"></i>Cliquez pour l'itineraire</p>
+                            </div>
+                        </a>
+
+                        <a href="tel:+212536502207" class="flex items-start gap-3 sm:gap-4 group p-3 sm:p-0 rounded-xl sm:rounded-none hover:bg-leopard-black/30 sm:hover:bg-transparent transition-colors">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-leopard-black rounded-lg flex items-center justify-center border border-leopard-gold/30 group-hover:bg-leopard-gold transition-all flex-shrink-0">
+                                <i class="fas fa-phone text-leopard-gold text-lg sm:text-xl group-hover:text-leopard-black"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-base sm:text-lg mb-1 group-hover:text-leopard-gold transition-colors">Restaurant</h4>
+                                <p class="text-gray-400 group-hover:text-gray-300 transition-colors text-sm sm:text-base">+212 5365-02207</p>
+                                <p class="text-leopard-gold text-xs sm:text-sm mt-1"><i class="fas fa-phone-alt mr-1"></i>Cliquez pour appeler</p>
+                            </div>
+                        </a>
+
+                        <a href="tel:+212779502324" class="flex items-start gap-3 sm:gap-4 group p-3 sm:p-0 rounded-xl sm:rounded-none hover:bg-leopard-black/30 sm:hover:bg-transparent transition-colors">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-leopard-black rounded-lg flex items-center justify-center border border-leopard-gold/30 group-hover:bg-leopard-gold transition-all flex-shrink-0">
+                                <i class="fas fa-cut text-leopard-gold text-lg sm:text-xl group-hover:text-leopard-black"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-base sm:text-lg mb-1 group-hover:text-leopard-gold transition-colors">Barbershop</h4>
+                                <p class="text-gray-400 group-hover:text-gray-300 transition-colors text-sm sm:text-base">+212 779-502324</p>
+                                <p class="text-leopard-gold text-xs sm:text-sm mt-1"><i class="fas fa-phone-alt mr-1"></i>Cliquez pour appeler</p>
+                            </div>
+                        </a>
+
+                        <a href="https://www.instagram.com/leopardocoffee" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 sm:gap-4 group p-3 sm:p-0 rounded-xl sm:rounded-none hover:bg-leopard-black/30 sm:hover:bg-transparent transition-colors">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-leopard-black rounded-lg flex items-center justify-center border border-leopard-gold/30 group-hover:bg-leopard-gold transition-all flex-shrink-0">
+                                <i class="fab fa-instagram text-leopard-gold text-lg sm:text-xl group-hover:text-leopard-black"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-base sm:text-lg mb-1 group-hover:text-leopard-gold transition-colors">Instagram</h4>
+                                <p class="text-gray-400 group-hover:text-gray-300 transition-colors text-sm sm:text-base">@leopardocoffee</p>
+                                <p class="text-leopard-gold text-xs sm:text-sm mt-1"><i class="fas fa-external-link-alt mr-1"></i>Cliquez pour visiter</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="h-64 sm:h-80 lg:h-96 rounded-2xl sm:rounded-3xl overflow-hidden border border-leopard-gold/20 shadow-2xl relative group" data-aos="fade-left">
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=34.6867256,-1.9086873" target="_blank" rel="noopener noreferrer" class="absolute inset-0 bg-leopard-gold/20 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex items-center justify-center">
+                        <div class="bg-leopard-black/80 px-6 py-3 rounded-full border border-leopard-gold">
+                            <span class="text-leopard-gold font-semibold"><i class="fas fa-directions mr-2"></i>Voir l'itineraire</span>
+                        </div>
+                    </a>
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13128.776427887264!2d-1.9086873!3d34.6867256!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd7864984f4e1c7f%3A0x1a1f3e5b8c3d4e5f!2sBoulevard%20Al%20Maqdis%2C%20Oujda!5e0!3m2!1sfr!2sma!4v1234567890"
+                        width="100%"
+                        height="100%"
+                        style="border:0; filter: invert(90%) hue-rotate(180deg);"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-leopard-black border-t border-leopard-gold/20 py-8 sm:py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <a href="#home" class="flex items-center gap-3">
+                    <div class="w-10 h-10 gold-bg-gradient rounded-full flex items-center justify-center">
+                        <i class="fas fa-paw text-leopard-black text-xl"></i>
+                    </div>
+                    <span class="font-serif text-2xl font-bold tracking-wider">Leopard'O</span>
+                </a>
+
+                <div class="flex gap-4">
+                    <a href="https://www.instagram.com/leopardocoffee" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-full bg-leopard-gray flex items-center justify-center hover:bg-leopard-gold hover:text-leopard-black transition-all" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://wa.me/212779502324?text=Bonjour%2C%20je%20souhaite%20avoir%20des%20informations%20sur%20Leopard'O" target="_blank" rel="noopener noreferrer" class="w-11 h-11 rounded-full bg-leopard-gray flex items-center justify-center hover:bg-green-500 hover:text-white transition-all" aria-label="WhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="tel:+212536502207" class="w-11 h-11 rounded-full bg-leopard-gray flex items-center justify-center hover:bg-leopard-gold hover:text-leopard-black transition-all" aria-label="Appeler le restaurant">
+                        <i class="fas fa-phone"></i>
+                    </a>
+                </div>
+
+                <p class="text-gray-500 text-sm">
+                    &copy; 2025 Leopard'O. Tous droits reserves.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/212779502324?text=Bonjour%2C%20je%20souhaite%20avoir%20des%20informations%20sur%20Leopard'O" target="_blank" rel="noopener noreferrer" class="whatsapp-btn w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform" title="Contactez-nous sur WhatsApp" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp text-white text-2xl"></i>
+    </a>
+
+    <!-- AOS Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            once: true,
+            offset: 50,
+            duration: 800,
+        });
+
+        // Menu Data
+        const menuData = {
+            breakfast: [
+                { name: "Leopard'O Bowl", price: 75, desc: "Champignons sautes, croquettes de pommes de terre, avocat, saumon fume, oeufs brouilles, pain perdu sale, yaourt muesli fruits, pancakes aux fruits et chocolat", icon: "fa-bowl-food" },
+                { name: "Sunrise Energy", price: 68, desc: "Croissant sale, fromage blanc, avocat, saumon fume, oeufs brouilles, bowl yaourt aux fruits, pancakes au chocolat", icon: "fa-sun" },
+                { name: "Moroccan Fusion", price: 68, desc: "3 Msemen garnis de fromage frais et mozzarella, oeufs brouilles, jambon de dinde, 6 accompagnements gourmands", icon: "fa-bread-slice" },
+                { name: "Omelette au Fromage", price: 34, desc: "Omelette savoureuse au fromage rouge", icon: "fa-egg" },
+                { name: "Omelette Champignons", price: 38, desc: "Omelette aux champignons sautes et epinards frais", icon: "fa-leaf" },
+                { name: "Omelette Jambon", price: 36, desc: "Omelette au jambon de dinde", icon: "fa-bacon" },
+                { name: "Omelette Khlia", price: 38, desc: "Omelette a la viande sechee traditionnelle", icon: "fa-drumstick-bite" },
+                { name: "Menu Bambino", price: 33, desc: "Bowl de cornflakes, jus de banane, pain perdu sale, pancake choco-banane, lait au chocolat", icon: "fa-child" },
+                { name: "Formule MANHATAN", price: 68, desc: "Omelette, mini burger, pommes croquettes, saucisse de veau, champignons sautes, toast au fromage, pancakes aux fruits", icon: "fa-city" },
+                { name: "Formule BROKLYN", price: 60, desc: "Toast grille, oeuf benedictine, jambon de dinde, pommes croquettes, gaufre sucette au Nutella", icon: "fa-building" }
+            ],
+            burgers: [
+                { name: "Chicken Tartar", price: 45, desc: "Steak de poulet frit, cornichon, coleslaw, sauce tartare", icon: "fa-drumstick-bite" },
+                { name: "California", price: 48, desc: "Steak hache, guacamole d'avocat, jalapeno, cheddar, cornichon, tomate, laitue iceberg", icon: "fa-pepper-hot" },
+                { name: "Canadian", price: 48, desc: "Steak hache grille BBQ, oignon caramelise, jambon de dinde, champignons de Paris", icon: "fa-leaf" },
+                { name: "Capresse", price: 46, desc: "Steak hache BBQ, mozzarella, salade, tomate, oignon rouge, roquette, sauce pesto", icon: "fa-cheese" },
+                { name: "Parmigianna", price: 45, desc: "Steak de poulet frit, sauce tomate, mozzarella, stick mozza, sauce cheddar", icon: "fa-pizza-slice" },
+                { name: "Truffe", price: 48, desc: "Double steak hache BBQ, champignons de Paris, pepperoni, sauce truffe", icon: "fa-star" }
+            ],
+            crepes: [
+                { name: "Poulet Champignon", price: 35, desc: "Crepe salee garnie de poulet et champignons sautes", icon: "fa-utensils" },
+                { name: "Charcuterie", price: 35, desc: "Crepe aux selections de charcuteries fines", icon: "fa-bacon" },
+                { name: "Viande Hachee", price: 38, desc: "Crepe garnie de viande hachee savoureuse", icon: "fa-hamburger" },
+                { name: "Fromage", price: 32, desc: "Crepe aux fromages fondants", icon: "fa-cheese" }
+            ],
+            desserts: [
+                { name: "Creme Caramel", price: 30, desc: "Dessert traditionnel onctueux", icon: "fa-candy-cane" },
+                { name: "Creme Brulee", price: 35, desc: "Creme vanille avec sa couche de caramel croustillant", icon: "fa-fire" },
+                { name: "San Sebastian Caramelise", price: 45, desc: "Gateau au fromage basque caramelise", icon: "fa-cake-candles" },
+                { name: "San Sebastian", price: 40, desc: "Gateau au fromage basque traditionnel", icon: "fa-cheese" },
+                { name: "Brownie Choco", price: 45, desc: "Brownie chocolat avec boule de glace vanille", icon: "fa-cookie" },
+                { name: "Pain Perdu Mangue", price: 48, desc: "Pain perdu a la mangue avec glace vanille", icon: "fa-ice-cream" },
+                { name: "Pain Perdu Beurre Sale", price: 45, desc: "Pain perdu au beurre sale avec glace", icon: "fa-bread-slice" },
+                { name: "Tranche", price: 25, desc: "Tranche de gateau du jour", icon: "fa-birthday-cake" },
+                { name: "Quick Americain", price: 30, desc: "Dessert americain rapide et gourmand", icon: "fa-flag-usa" },
+                { name: "Tiramisu", price: 45, desc: "Tiramisu italien traditionnel", icon: "fa-mug-hot" }
+            ],
+            drinks: [
+                { name: "Jus d'Orange", price: 19, desc: "Fraichement presse", icon: "fa-glass-citrus" },
+                { name: "Jus de Citron", price: 19, desc: "Fraichement presse", icon: "fa-lemon" },
+                { name: "Jus d'Avocat", price: 24, desc: "Cremeux et nourrissant", icon: "fa-seedling" },
+                { name: "Jus de Fraise", price: 22, desc: "Frais et fruite", icon: "fa-apple-alt" },
+                { name: "Jus de Mangue", price: 24, desc: "Exotique et savoureux", icon: "fa-seedling" },
+                { name: "Oasis Leopard'O", price: 35, desc: "Cocktail signature maison", icon: "fa-cocktail" },
+                { name: "Jus de Pitaya", price: 38, desc: "Fruit du dragon frais", icon: "fa-seedling" },
+                { name: "Cocktail de Fruits", price: 26, desc: "Melange de fruits frais", icon: "fa-blender" },
+                { name: "Red Bull", price: 30, desc: "Boisson energisante", icon: "fa-bolt" },
+                { name: "Eau Minerale 33cl", price: 4, desc: "Eau minerale", icon: "fa-bottle-water" },
+                { name: "Eau Minerale 50cl", price: 8, desc: "Eau minerale", icon: "fa-bottle-water" },
+                { name: "Soda", price: 16, desc: "Assortiment de sodas", icon: "fa-wine-bottle" }
+            ]
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            filterMenu('breakfast');
+
+            // Navbar scroll effect
+            window.addEventListener('scroll', () => {
+                const navbar = document.getElementById('navbar');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('bg-leopard-black/95', 'backdrop-blur-md', 'shadow-lg');
+                    navbar.classList.remove('bg-transparent');
+                } else {
+                    navbar.classList.remove('bg-leopard-black/95', 'backdrop-blur-md', 'shadow-lg');
+                    navbar.classList.add('bg-transparent');
+                }
+            });
+
+            // Set min date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('res-date').min = today;
+        });
+
+        // Filter Menu
+        function filterMenu(category) {
+            const grid = document.getElementById('menu-grid');
+            const buttons = document.querySelectorAll('.category-btn');
+
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            // Match button by data attribute
+            const categoryMap = {
+                'breakfast': 'Petit',
+                'burgers': 'Burgers',
+                'crepes': 'Crepes',
+                'desserts': 'Desserts',
+                'drinks': 'Boissons'
+            };
+
+            buttons.forEach(btn => {
+                if (btn.textContent.includes(categoryMap[category])) {
+                    btn.classList.add('active');
+                }
+            });
+
+            const items = menuData[category] || [];
+            grid.innerHTML = items.map((item, index) => `
+                <div class="menu-item bg-leopard-gray rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-leopard-gold/10 hover:border-leopard-gold/30">
+                    <div class="flex justify-between items-start mb-3 sm:mb-4">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 gold-bg-gradient rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas ${item.icon} text-leopard-black text-lg sm:text-xl"></i>
+                        </div>
+                        <span class="text-xl sm:text-2xl font-bold gold-gradient">${item.price} DH</span>
+                    </div>
+                    <h3 class="font-serif text-lg sm:text-xl font-semibold mb-1.5 sm:mb-2">${item.name}</h3>
+                    <p class="text-gray-400 text-xs sm:text-sm leading-relaxed">${item.desc}</p>
+                </div>
+            `).join('');
+
+            // Re-init AOS for new elements
+            AOS.refresh();
+        }
+
+        // Reservation Functions
+        function updateReservationOptions() {
+            const service = document.getElementById('res-service').value;
+            const restaurantOptions = document.getElementById('restaurant-options');
+            const barbershopOptions = document.getElementById('barbershop-options');
+            const feeSection = document.getElementById('fee-section');
+            const fee = document.getElementById('reservation-fee');
+            const total = document.getElementById('reservation-total');
+
+            if (service === 'restaurant') {
+                restaurantOptions.style.display = 'grid';
+                barbershopOptions.classList.add('hidden');
+                feeSection.style.display = 'block';
+                fee.textContent = '50 DH';
+                total.textContent = '50 DH';
+            } else {
+                restaurantOptions.style.display = 'none';
+                barbershopOptions.classList.remove('hidden');
+                feeSection.style.display = 'none';
+            }
+        }
+
+        // Handle Reservation - Sends to WhatsApp
+        function handleReservation(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('res-name').value;
+            const phone = document.getElementById('res-phone').value;
+            const service = document.getElementById('res-service').value;
+            const date = document.getElementById('res-date').value;
+
+            // Format date nicely
+            const dateObj = new Date(date + 'T00:00:00');
+            const formattedDate = dateObj.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+            let message = `*Nouvelle Reservation Leopard'O*\n\n`;
+            message += `*Nom:* ${name}\n`;
+            message += `*Telephone:* ${phone}\n`;
+            message += `*Service:* ${service === 'restaurant' ? 'Restaurant' : 'Barbershop'}\n`;
+            message += `*Date:* ${formattedDate}\n`;
+
+            if (service === 'restaurant') {
+                const time = document.getElementById('res-time').value;
+                const guests = document.getElementById('res-guests').value;
+                message += `*Heure:* ${time}\n`;
+                message += `*Personnes:* ${guests}\n`;
+                message += `*Frais de reservation:* 50 DH\n`;
+            } else {
+                const time = document.getElementById('res-barber-time').value;
+                message += `*Heure:* ${time}\n`;
+            }
+
+            message += `\n_Merci de confirmer ma reservation_`;
+
+            // Send via WhatsApp
+            const whatsappUrl = `https://wa.me/212779502324?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+
+            showNotification('Redirection vers WhatsApp...');
+
+            // Reset form after delay
+            setTimeout(() => {
+                document.getElementById('reservation-form').reset();
+                updateReservationOptions();
+            }, 2000);
+        }
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            menu.classList.toggle('open');
+
+            if (menu.classList.contains('open')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        }
+
+        function closeMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            menu.classList.remove('open');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-20 sm:top-24 right-4 left-4 sm:left-auto px-6 py-4 rounded-lg shadow-2xl z-50 transform translate-y-[-20px] opacity-0 transition-all duration-300 ${type === 'error' ? 'bg-red-500 text-white' : 'gold-bg-gradient text-leopard-black'}`;
+            notification.innerHTML = `
+                <div class="flex items-center gap-3 justify-center sm:justify-start">
+                    <i class="fas ${type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i>
+                    <span class="font-semibold text-sm sm:text-base">${message}</span>
+                </div>
+            `;
+            document.body.appendChild(notification);
+
+            requestAnimationFrame(() => {
+                notification.style.transform = 'translateY(0)';
+                notification.style.opacity = '1';
+            });
+
+            setTimeout(() => {
+                notification.style.transform = 'translateY(-20px)';
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('mobile-menu');
+            const toggleBtn = document.getElementById('menu-toggle-btn');
+            if (menu.classList.contains('open') && !menu.contains(e.target) && !toggleBtn.contains(e.target)) {
+                closeMobileMenu();
+            }
+        });
+    </script>
+</body>
+</html>
